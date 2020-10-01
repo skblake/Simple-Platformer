@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlatformManager : MonoBehaviour
 {
     public ArrayList platforms = new ArrayList();
+    public GameObject player;
+    public GameObject cam_obj;
     public void addToList(Platform p) => platforms.Add(p);
 
     /* An ENUMERATION TYPE (or ENUM TYPE) is a value type defined by a set of 
@@ -26,9 +28,13 @@ public class PlatformManager : MonoBehaviour
      * explicitly specify the associated content values.
      */
     public Colors lens = Colors.Red;
+    private Color[,] palettes = new Color[7, 9];
+    private Camera cam;
     void Start()
     {
+        cam = cam_obj.GetComponent<Camera>();
         changeColor(lens);
+        makePalettes();
     }
 
     void Update()
@@ -51,11 +57,38 @@ public class PlatformManager : MonoBehaviour
                 } else if (p.type.CompareTo(c) == 0) {
                     p.setVisible(false);
                 }
+                p.setColor(palettes[(int)lens, (int)p.type]);
             }
+            setColor(player.GetComponent<SpriteRenderer>(), palettes[(int)oldLens, 7]);
+            cam.backgroundColor = palettes[(int)lens, 8];
+            //cam.backgroundColor = Color.Lerp(cam.backgroundColor, palettes[(int)lens, 8], 1);
         }
     }
 
-    private Color[] getPalette(Colors c) {
-        return new Color[5];
+    private void makePalettes () {
+        /////////////// RED ////////////////
+        palettes[1, 0] = makeColor(0, 0, 0); //ground
+        palettes[1, 1] = makeColor(0, 0, 0); //red
+        palettes[1, 2] = makeColor(0, 0, 0); //orange
+        palettes[1, 3] = makeColor(241, 215, 88); //yellow
+        palettes[1, 4] = makeColor(0, 0, 0); //green
+        palettes[1, 5] = makeColor(0, 0, 0); //blue
+        palettes[1, 6] = makeColor(0, 0, 0); //purple
+        palettes[1, 7] = makeColor(221, 33, 49); //player
+        palettes[1, 8] = makeColor(221, 33, 49); //background
+
+        ////////////// YELLOW ///////////////
+        palettes[3, 0] = makeColor(0, 0, 0); //ground
+        palettes[3, 1] = makeColor(221, 33, 49); //red
+        palettes[3, 2] = makeColor(0, 0, 0); //orange
+        palettes[3, 3] = makeColor(0, 0, 0); //yellow
+        palettes[3, 4] = makeColor(0, 0, 0); //green
+        palettes[3, 5] = makeColor(0, 0, 0); //blue
+        palettes[3, 6] = makeColor(0, 0, 0); //purple
+        palettes[3, 7] = makeColor(241, 215, 88); //player
+        palettes[3, 8] = makeColor(241, 215, 88); //background
     }
+    public void setColor (SpriteRenderer sr, Color c) => sr.color = c;
+
+    public Color makeColor (float r, float g, float b) => new Color (r/255, g/255, b/255);
 }

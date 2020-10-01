@@ -29,7 +29,7 @@ public class PlatformManager : MonoBehaviour
      */
 
     private Color brightRed, darkRed, brightOrange, redOrange, yellowOrange,
-        brightYellow, darkYellow;
+        brightYellow, darkYellow, brightGreen, brightBlue, darkBlue, brightPurple;
 
     public Colors lens = Colors.Red;
     private Color[,] palettes = new Color[7, 9];
@@ -38,7 +38,7 @@ public class PlatformManager : MonoBehaviour
     void Start()
     {
         //////// BASIC COLORS ////////
-         purpleRed;
+         //purpleRed;
          brightRed = makeColor(221, 33, 49);
          darkRed = makeColor(52, 7, 11);
          brightOrange = makeColor(242, 115, 58);
@@ -46,12 +46,12 @@ public class PlatformManager : MonoBehaviour
          yellowOrange = makeColor (242, 189, 88);
          brightYellow = makeColor(241, 215, 88);
          darkYellow = makeColor(199, 144, 11);
-         yellowGreen;
+         //yellowGreen;
          brightGreen = makeColor (127, 220, 109);
-         blueGreen;
+         //blueGreen;
          brightBlue = makeColor(73, 183, 249);
-         darkBlue;
-         purpleBlue;
+         darkBlue = makeColor(10, 50, 91);
+         //purpleBlue;
          brightPurple = makeColor(152, 51, 228);
 
         cam = cam_obj.GetComponent<Camera>();
@@ -66,11 +66,13 @@ public class PlatformManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1)) {
             initializing = false;
             changeColor(Colors.Red); //RED
-        } else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha2)) {
+        } else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2)) {
             initializing = false;
             changeColor(Colors.Yellow); //YELLOW
+        } else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3)) {
+            initializing = false;
+            changeColor(Colors.Blue);
         }
-        
     }
     
     private void changeColor(Colors c) {
@@ -100,7 +102,7 @@ public class PlatformManager : MonoBehaviour
         palettes[1, 3] = brightOrange; //yellow
         palettes[1, 4] = makeColor(0, 0, 0); //green
         palettes[1, 5] = brightPurple; //blue
-        palettes[1, 6] = redPurple; //purple
+        palettes[1, 6] = brightPurple; //purple
         palettes[1, 7] = brightRed; //player
         palettes[1, 8] = brightRed; //background
 
@@ -120,7 +122,7 @@ public class PlatformManager : MonoBehaviour
         palettes[3, 1] = brightOrange; //red
         palettes[3, 2] = yellowOrange; //orange
         palettes[3, 3] = makeColor(0, 0, 0); //yellow
-        palettes[3, 4] = yellowGreen); //green
+        palettes[3, 4] = brightGreen; //green
         palettes[3, 5] = brightGreen; //blue
         palettes[3, 6] = makeColor(0, 0, 0); //purple
         palettes[3, 7] = brightYellow; //player
@@ -129,19 +131,19 @@ public class PlatformManager : MonoBehaviour
         /////////////// BLUE ////////////////
         palettes[5, 0] = darkBlue; //ground
         palettes[5, 1] = brightPurple; //red
-        palettes[5, 2] = makeColor(0, 0, 0); //orange
+        palettes[5, 2] = darkBlue; //orange
         palettes[5, 3] = brightGreen; //yellow
-        palettes[5, 4] = blueGreen; //green
+        palettes[5, 4] = brightGreen; //green
         palettes[5, 5] = makeColor(0, 0, 0); //blue
-        palettes[5, 6] = bluePurple; //purple
-        palettes[5, 7] = brightRed; //player
-        palettes[5, 8] = brightRed; //background
+        palettes[5, 6] = brightPurple; //purple
+        palettes[5, 7] = brightBlue; //player
+        palettes[5, 8] = brightBlue; //background
     }
     public void setColor (SpriteRenderer sr, Color c) => sr.color = c;
 
     public Color makeColor (float r, float g, float b) => new Color (r/255, g/255, b/255);
 
-    public Colors typeSet (string t) {
+    public Colors setType (string t) {
         switch (t) {
              case "Ground":
                 return Colors.Ground;

@@ -15,12 +15,10 @@ public class Trigger : MonoBehaviour
     void Start() {
         hintRenderer = linkedHint.GetComponent<SpriteRenderer>();
         _manager = manager.GetComponent<PlatformManager>();
-        type = _manager.typeSet(hintColor);
-        Debug.Log("hint type: " + type);
+        type = _manager.setType(hintColor);
     }
 
     void OnTriggerEnter2D(Collider2D activator) {
-        Debug.Log ("checking hint type: " + type.CompareTo(_manager.lens));
         if (type.CompareTo(_manager.lens) != 0) {
             hintRenderer.enabled = true;
         }

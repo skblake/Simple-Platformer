@@ -7,11 +7,6 @@ public class PlatformManager : MonoBehaviour
     public ArrayList platforms = new ArrayList();
     public void addToList(Platform p) => platforms.Add(p);
 
-    /*private enum LensType {
-        Red,
-        Yellow
-    }*/
-
     /* An ENUMERATION TYPE (or ENUM TYPE) is a value type defined by a set of 
      * named constants of the underlying integral numeric type. To define an 
      * enumeration type, use the enum keyword and specify the names of enum 
@@ -30,9 +25,10 @@ public class PlatformManager : MonoBehaviour
      * underlying type of an enumeration type (long, ushort). You can also 
      * explicitly specify the associated content values.
      */
-    private Colors lens = Colors.Red;
+    public Colors lens = Colors.Red;
     void Start()
     {
+        changeColor(lens);
     }
 
     void Update()
@@ -50,17 +46,16 @@ public class PlatformManager : MonoBehaviour
             lens = c;
             Debug.Log(lens);
             foreach (Platform p in platforms) {
-                //Debug.Log("TYPE: " + p.type + " LENS: " + lens + " COLOR: " + c);
-                //Debug.Log("platform vs. oldLens: " + p.type.CompareTo(oldLens) 
-                    + "\nplatform vs. new color: " + p.type.CompareTo(c));
                 if (p.type.CompareTo(oldLens) == 0) {
-                    Debug.Log("platform shown");
                     p.setVisible(true);
                 } else if (p.type.CompareTo(c) == 0) {
-                    Debug.Log("platform hidden");
                     p.setVisible(false);
                 }
             }
         }
+    }
+
+    private Color[] getPalette(Colors c) {
+        return new Color[5];
     }
 }

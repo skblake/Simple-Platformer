@@ -13,7 +13,7 @@ public class Trigger : MonoBehaviour
     private PlatformManager _manager;
 
     void Start() {
-        hintRenderer = GameObject.FindWithTag("Button2").GetComponent<SpriteRenderer>();
+        hintRenderer = linkedHint.GetComponent<SpriteRenderer>();
         _manager = manager.GetComponent<PlatformManager>();
         type = _manager.typeSet(hintColor);
         Debug.Log("hint type: " + type);

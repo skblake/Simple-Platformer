@@ -20,8 +20,10 @@ public class Platform : MonoBehaviour
         manager.addToList(this);
      }
 
+    //called by PlatformManager to hide and show platforms
      public void setVisible (bool v) =>
          visible = s_renderer.enabled = platformEffector.enabled = box_collider.enabled = v;
 
+    //called by PlatformManager to update platform color
      public void setColor (Color c) => s_renderer.color = c;
 }

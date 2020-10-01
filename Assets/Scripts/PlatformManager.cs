@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Manages platform types and color changes. 
+//USAGE: Put on an empty GameObject.
 public class PlatformManager : MonoBehaviour
 {
     public ArrayList platforms = new ArrayList();
     public GameObject player;
     public GameObject cam_obj;
-    public void addToList(Platform p) => platforms.Add(p);
 
     /* An ENUMERATION TYPE (or ENUM TYPE) is a value type defined by a set of 
      * named constants of the underlying integral numeric type. To define an 
@@ -31,8 +32,8 @@ public class PlatformManager : MonoBehaviour
     private Color brightRed, darkRed, brightOrange, redOrange, yellowOrange,
         brightYellow, darkYellow, brightGreen, brightBlue, darkBlue, brightPurple;
 
-    public Colors lens = Colors.Red;
-    private Color[,] palettes = new Color[7, 9];
+    public Colors lens = Colors.Red; //initial bg color
+    private Color[,] palettes = new Color[7, 9]; //2D array of colors for each lens
     private Camera cam;
     private bool initializing = true;
     void Start()
@@ -60,7 +61,8 @@ public class PlatformManager : MonoBehaviour
     }
 
     void Update()
-    {
+    {   
+        //Listens for numeric key input
         if (initializing)
             changeColor(lens);
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1)) {
@@ -75,25 +77,26 @@ public class PlatformManager : MonoBehaviour
         }
     }
     
+    //Changes stage color
     private void changeColor(Colors c) {
-        if (lens != c) {
-            Colors oldLens = lens;
-            lens = c;
+        if (lens != c) { //skips the whole method if the color hasn't changed
+            Colors oldLens = lens; //save previous color
+            lens = c; //update color
             Debug.Log(lens);
             foreach (Platform p in platforms) {
-                p.setColor(palettes[(int)lens, (int)p.type]);
+                p.setColor(palettes[(int)lens, (int)p.type]); //set new platform colors
                 if (p.type.CompareTo(oldLens) == 0) {
-                    p.setVisible(true);
+                    p.setVisible(true); //show platforms that were hidden
                 } else if (p.type.CompareTo(c) == 0) {
-                    p.setVisible(false);
+                    p.setVisible(false); //hide platforms that match lens
                 }
             }
             setColor(player.GetComponent<SpriteRenderer>(), palettes[(int)oldLens, 7]);
             cam.backgroundColor = palettes[(int)lens, 8];
-            //cam.backgroundColor = Color.Lerp(cam.backgroundColor, palettes[(int)lens, 8], 1);
         }
     }
 
+    //initializes color palette array
     private void makePalettes () {
         /////////////// RED ////////////////
         palettes[1, 0] = darkRed; //ground
@@ -139,10 +142,16 @@ public class PlatformManager : MonoBehaviour
         palettes[5, 7] = brightBlue; //player
         palettes[5, 8] = brightBlue; //background
     }
+    //setter for spriterenderer colors
     public void setColor (SpriteRenderer sr, Color c) => sr.color = c;
 
+    //called by the Platform class to push a platform to the ArrayList.
+    public void addToList(Platform p) => platforms.Add(p);
+
+    //simplifies color initialization
     public Color makeColor (float r, float g, float b) => new Color (r/255, g/255, b/255);
 
+    //converts a string to a Colors enum.
     public Colors setType (string t) {
         switch (t) {
              case "Ground":
